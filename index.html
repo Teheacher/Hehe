@@ -1,0 +1,120 @@
+<html>
+
+<head>
+    <title>Passwort Eingabe</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .password-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .password-display {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .password-dot {
+            width: 20px;
+            height: 20px;
+            margin: 0 5px;
+            border-radius: 50%;
+            background-color: #ccc;
+        }
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            z-index: 1;
+        }
+        .keypad button {
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            border-radius: 50%;
+            border: none;
+            background-color: #b3b3b3;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .background-rectangle {
+            position: absolute;
+            top: calc(50% - 130px); /* 100px weiter oben */
+            width: 220px;
+            height: 300px;
+            background-color: #616161;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="password-container">
+        <div class="background-rectangle"></div>
+        <div class="password-display" id="passwordDisplay">
+            <div class="password-dot"></div>
+            <div class="password-dot"></div>
+            <div class="password-dot"></div>
+            <div class="password-dot"></div>
+        </div>
+        <div class="keypad">
+            <button onclick="enterDigit(1)">1</button>
+            <button onclick="enterDigit(2)">2</button>
+            <button onclick="enterDigit(3)">3</button>
+            <button onclick="enterDigit(4)">4</button>
+            <button onclick="enterDigit(5)">5</button>
+            <button onclick="enterDigit(6)">6</button>
+            <button onclick="enterDigit(7)">7</button>
+            <button onclick="enterDigit(8)">8</button>
+            <button onclick="enterDigit(9)">9</button>
+            <button onclick="enterDigit(0)"></button>
+            <button onclick="enterDigit(0)">0</button>
+            <button onclick="enterDigit(0)"></button>
+        </div>
+    </div>
+
+    <script>
+        let enteredPassword = '';
+
+        function enterDigit(digit) {
+            if (enteredPassword.length < 4) {
+                enteredPassword += digit;
+                updatePasswordDisplay();
+                if (enteredPassword.length === 4) {
+                    checkPassword();
+                }
+            }
+        }
+
+        function updatePasswordDisplay() {
+            const dots = document.querySelectorAll('.password-dot');
+            dots.forEach((dot, index) => {
+                if (index < enteredPassword.length) {
+                    dot.style.backgroundColor = '#000';
+                } else {
+                    dot.style.backgroundColor = '#ccc';
+                }
+            });
+        }
+
+        function checkPassword() {
+            if (enteredPassword === '2025') {
+                window.location.href = 'eingelogt.html';
+            } else {
+                alert('Falsches Passwort!');
+                enteredPassword = '';
+                updatePasswordDisplay();
+            }
+        }
+    </script>
+</body>
+
+</html>

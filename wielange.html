@@ -1,0 +1,89 @@
+
+<html>
+
+<head>
+    <title>Timer</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .counter-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .counter {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            z-index: 1;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #4285f4;
+            color: white;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #357ae8;
+        }
+        .background-rectangle {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 450px;
+            height: 100px;
+            background-color: #b8b8b8;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="counter-container">
+        <div class="background-rectangle"></div>
+        <div class="counter" id="counter">00:00:00:00:00:00</div>
+    </div>
+
+    <script>
+        let startTime = new Date('2025-03-21T17:15:00'); // Startdatum und -uhrzeit
+        let timer;
+
+        function startTimer() {
+            if (timer) {
+                clearInterval(timer); // Stoppe den vorherigen Timer, falls einer läuft
+            }
+            timer = setInterval(updateCounter, 1000); // Timer startet und zählt jede Sekunde
+        }
+
+        function updateCounter() {
+            const now = new Date();
+            const elapsedTime = now - startTime; // Verstrichene Zeit in Millisekunden
+
+            const years = Math.floor(elapsedTime / (1000 * 60 * 60 * 24 * 365));
+            const months = Math.floor((elapsedTime % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
+            const days = Math.floor((elapsedTime % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((elapsedTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+
+            document.getElementById('counter').textContent = 
+                `${String(years).padStart(2, '0')}:${String(months).padStart(2, '0')}:${String(days).padStart(2, '0')}:${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        // Starte den Timer automatisch beim Laden der Seite
+        window.onload = startTimer;
+    </script>
+</body>
+
+</html>

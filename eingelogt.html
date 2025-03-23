@@ -1,0 +1,132 @@
+<html>
+
+<head>
+    <title>Suchleiste</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .search-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .search-box {
+            width: 400px;
+            padding: 10px;
+            border: 1px solid #dfe1e5;
+            border-radius: 24px;
+            box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+            font-size: 16px;
+        }
+        .search-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 24px;
+            background-color: #4285f4;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .search-button:hover {
+            background-color: #357ae8;
+        }
+        .suggestions {
+            position: absolute;
+            top: 50px;
+            width: 400px;
+            border: 1px solid #dfe1e5;
+            border-radius: 0 0 24px 24px;
+            box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+            background-color: white;
+            z-index: 1;
+        }
+        .suggestion {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .suggestion:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="search-container">
+        <input type="text" class="search-box" id="searchBox" placeholder="Suche" onfocus="showSuggestions()" onblur="hideSuggestions()" oninput="filterSuggestions(this.value)">
+        <div class="suggestions" id="suggestions"></div>
+        <button class="search-button" onclick="performSearch()">Suche</button>
+    </div>
+
+    <script>
+        const suggestions = [
+            'Probiere',
+            'Mal',
+            'Bananen-',
+            'Köpfe',
+            ';)'
+        ];
+
+        function showSuggestions() {
+            const suggestionsContainer = document.getElementById('suggestions');
+            suggestionsContainer.innerHTML = '';
+            suggestions.forEach(suggestion => {
+                const suggestionElement = document.createElement('div');
+                suggestionElement.classList.add('suggestion');
+                suggestionElement.textContent = suggestion;
+                suggestionElement.onclick = () => {
+                    document.getElementById('searchBox').value = suggestion;
+                    suggestionsContainer.innerHTML = '';
+                };
+                suggestionsContainer.appendChild(suggestionElement);
+            });
+        }
+
+        function hideSuggestions() {
+            setTimeout(() => {
+                const suggestionsContainer = document.getElementById('suggestions');
+                suggestionsContainer.innerHTML = '';
+            }, 100); // Verzögerung, um Klick auf Vorschlag zu ermöglichen
+        }
+
+        function filterSuggestions(value) {
+            const suggestionsContainer = document.getElementById('suggestions');
+            suggestionsContainer.innerHTML = '';
+            if (value) {
+                const filteredSuggestions = suggestions.filter(suggestion =>
+                    suggestion.toLowerCase().includes(value.toLowerCase())
+                );
+                filteredSuggestions.forEach(suggestion => {
+                    const suggestionElement = document.createElement('div');
+                    suggestionElement.classList.add('suggestion');
+                    suggestionElement.textContent = suggestion;
+                    suggestionElement.onclick = () => {
+                        document.getElementById('searchBox').value = suggestion;
+                        suggestionsContainer.innerHTML = '';
+                    };
+                    suggestionsContainer.appendChild(suggestionElement);
+                });
+            } else {
+                showSuggestions();
+            }
+        }
+
+        function performSearch() {
+            const query = document.getElementById('searchBox').value.trim(); // Entfernt unnötige Leerzeichen
+            if (query === 'Bananen-Köpfe') { // Case-sensitive Vergleich
+                window.location.href = 'wielange.html';
+            } else {
+                alert('Keine Ergebnisse gefunden');
+            }
+        }
+    </script>
+</body>
+
+</html>
